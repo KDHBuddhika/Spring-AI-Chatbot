@@ -3,6 +3,7 @@ package com.chat.chatbot;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Map;
 
@@ -17,6 +18,12 @@ public class QnAService {
     private String geminiApiKey;
 
 
+    private final WebClient webClient;
+
+    public QnAService(WebClient.Builder webClient) {
+        this.webClient = webClient.build();
+    }
+
 
     public String getAnswer(String quection) {
         // Construct the request payload
@@ -27,20 +34,28 @@ public class QnAService {
                         } )
                 }
         );
-
-        //{
+  //------------ stucture ------------
+        // {
         //  "contents": [{
         //    "parts":[{"text": "Explain how AI works"}]
         //    }]
         //   }
-
+//-------------------------------------------
 
         //Make API Call
+
+      String response =   webClient.post()
+                .uri(geminiApiUrl + geminiApiKey)
+                .header("Content-Type","application/json")
+                .bodyValue(requestBody)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
 
 
         //Return response
 
 
-        return null;
+        return response;
     }
 }

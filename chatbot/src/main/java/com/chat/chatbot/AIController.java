@@ -1,8 +1,9 @@
 package com.chat.chatbot;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.chat.chatbot.QnAService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,16 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/qna")
 public class AIController {
 
-    @Autowired
-    private QnAService qnAService;
+    private final QnAService qnAService;
 
-    public ResponseEntity<String> askQuection (@RequestBody Map<String,String> payload){
-         String quection = payload.get("quection");
-         String answer = qnAService.getAnswer(quection);
-         return ResponseEntity.ok(answer);
+    @PostMapping("/ask")
+    public ResponseEntity<String> askQuestion(@RequestBody Map<String, String> payload) {
+        String question = payload.get("question");
+        String answer = qnAService.getAnswer(question);
+        return ResponseEntity.ok(answer);
     }
-
 }
