@@ -15,7 +15,8 @@ const ChatInput = ({onSubmit}) =>{
 
     return(
        <div className="container my-4">
-             <div onSubmit={handleSubmit}>
+             <form onSubmit={handleSubmit}>
+                <div className="form-group">
                  <label htmlFor="question">Ask a Question </label>
                  <input 
                       type="text"
@@ -28,7 +29,7 @@ const ChatInput = ({onSubmit}) =>{
              <button type="submit" className="btn btn-primary mt-2">
                   Submit
              </button>
-           
+           </form>
        </div>       
     )       
 }
